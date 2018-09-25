@@ -34,7 +34,7 @@ class Color(_color):
 		return Color(self.r - other.r, self.g - other.g, self.b - other.b)
 
 	def __rsub__(self, other):
-		return self.__add__(other)
+		return self.__sub__(other)
 
 	def __mul__(self, other):
 	 	return Color(self.r * other, self.g * other, self.b * other)

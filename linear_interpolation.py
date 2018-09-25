@@ -52,8 +52,8 @@ class LinearInterpolator:
                 # ratio = (val - self.val_list[i][0]) / \
                 #     (self.val_list[i+1][0] -
                 #      self.val_list[i][0])
-                ratio = ratio(self.val_list[i][1], self.val_list[i+1][1], val)
-                return interpolate(self.val_list[i][1], self.val_list[i+1][1], ratio)
+                _ratio = ratio(self.val_list[i][0], self.val_list[i+1][0], val)
+                return interpolate(self.val_list[i][1], self.val_list[i+1][1], _ratio)
 
     def get_segmented(self, val, segments=None):
         if segments is None:

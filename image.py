@@ -41,15 +41,15 @@ import numpy as np
 
 
 def load_image(name):
-	im = Image.open('test1.jpg')
-	return np.array(im).astype('float32')/255
+	im = Image.open(name)
+	return np.array(im).astype('float32')  # /255
 
 
-def save_image(image, name):
+def save_image(image, name="tmp.png"):
 	arr = np.clip(image, 0, 1) * 255
 	im = Image.fromarray(arr.astype('uint8'))
-	im.save("bop.png")
+	im.save(name)
 
 
-def new_image(height, width, fill=(0, 0, 0)):
-	return np.full((height, width, 3), fill, dtype='float32')
+def new_image(width, height, fill=(0, 0, 0)):
+	return np.full((width, height, 3), fill, dtype='float32')
