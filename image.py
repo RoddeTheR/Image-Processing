@@ -42,7 +42,7 @@ import numpy as np
 
 def load_image(name):
 	im = Image.open(name)
-	return np.array(im).astype('float32')  # /255
+	return np.array(im).astype('float32') / 255
 
 
 def save_image(image, name="tmp.png"):
@@ -52,4 +52,4 @@ def save_image(image, name="tmp.png"):
 
 
 def new_image(width, height, fill=(0, 0, 0)):
-	return np.full((width, height, 3), fill, dtype='float32')
+	return np.full((height, width, 3), fill, dtype='float32')
