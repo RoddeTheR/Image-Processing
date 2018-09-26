@@ -42,7 +42,7 @@ class Color(_color):
 	def __rmul__(self, other):
 		return self.__mul__(other)
 
-	# Need to try if this is needed anymore
+	# Need to check if this is needed anymore
 	# def __str__(self):
 	#  	return f"RGB({self.r},{self.g},{self.b})"
 

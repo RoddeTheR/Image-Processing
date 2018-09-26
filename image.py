@@ -51,5 +51,5 @@ def save_image(image, name="tmp.png"):
 	im.save(name)
 
 
-def new_image(width, height, fill=(0, 0, 0)):
-	return np.full((height, width, 3), fill, dtype='float32')
+def new_image(width, height, color=(0, 0, 0)):
+	return np.full((height, width, 3), color, dtype='float32')
