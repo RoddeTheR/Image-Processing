@@ -45,3 +45,9 @@ def random_circles_mask(image, amount, padding=2, min_size=10, max_size=100):
 		mask |= circular_mask(image, center=(
 		    point[0], point[1]), radius=size)
 	return mask
+
+
+def outline_mask(image, threshold):
+	gradient = np.sum(np.square(np.gradient(image)[0:2]), axis=0)
+	gradient_length = np.sum(np.square(gradient), axis=2)
+	return gradient_length > threshold
