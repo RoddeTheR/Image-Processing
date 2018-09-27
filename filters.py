@@ -10,9 +10,7 @@ def grayscale(image, weights=(0.33, 0.33, 0.33)):
 
 
 def grayscale_2(image):
-	max = np.maximum(np.maximum(image[R], image[G]), image[B])
-	min = np.minimum(np.minimum(image[R], image[G]), image[B])
-	return (max + min)/2
+	return (np.amax(image, axis=2) + np.amin(image, axis=2))/2
 
 
 def blackwhite_dots(image):
@@ -48,3 +46,17 @@ def contrast(image, mu_p, sigma_p):
 	n = image.shape[0] * image.shape[1]
 	sigma = np.sqrt((P - n * np.square(mu))/(n-1))
 	return mu_p + (sigma_p / sigma) * (image - mu)
+
+
+def closest_color(image, colors):
+	distances = np.sum(np.square(image[:, :, None, :] - colors), axis=3)
+	indices = np.argmin(distances, axis=2)
+	return colors[indices]
+
+
+def closest_lightness(image, colors):
+	colors_l = (np.amax(colors, axis=1) + np.amin(colors, axis=1))/2
+	image_l = (np.amax(image, axis=2) + np.amin(image, axis=2))/2
+	distances = np.abs(image_l[:, :, None] - colors_l)
+	indices = np.argmin(distances, axis=2)
+	return colors[indices]
