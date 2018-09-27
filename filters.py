@@ -1,6 +1,7 @@
 import numpy as np
 from constants import R, G, B
 from image import new_image
+from math import sqrt
 
 
 def grayscale(image, weights=(0.33, 0.33, 0.33)):
@@ -39,3 +40,11 @@ def rgb_dots(image):
 	out[r_mask] = (1, 0, 0)
 	out[w_mask] = (1, 1, 1)
 	return out
+
+
+def contrast(image, mu_p, sigma_p):
+	mu = np.mean(image, axis=(0, 1))
+	P = np.sum(np.square(image), axis=(0, 1))
+	n = image.shape[0] * image.shape[1]
+	sigma = np.sqrt((P - n * np.square(mu))/(n-1))
+	return mu_p + (sigma_p / sigma) * (image - mu)
