@@ -2,6 +2,7 @@ import numpy as np
 from constants import R, G, B
 from image import new_image
 from math import sqrt
+from kmeans import k_means
 
 
 def grayscale(image, weights=(0.33, 0.33, 0.33)):
@@ -52,6 +53,15 @@ def closest_color(image, colors):
 	distances = np.sum(np.square(image[:, :, None, :] - colors), axis=3)
 	indices = np.argmin(distances, axis=2)
 	return colors[indices]
+
+
+def cluster_color(image, clusters, **kwargs):
+	original_shape = image.shape
+	data = image.reshape((-1, 3))
+	averages, classes = k_means(clusters, data, **kwargs)
+
+	image = averages[classes]
+	return image.reshape(original_shape)
 
 
 def closest_lightness(image, colors):
