@@ -1,10 +1,15 @@
 import numpy as np
 from image import new_image
-from scipy.signal import convolve2d
-from math import pi
+from scipy.signal import convolve2d, convolve
 
 
 def apply_kernel(image, kernel):
+	# Needs padding fix
+	im = convolve(image, np.array(kernel[:, :, None]), mode="same")
+	return im
+
+
+def _apply_kernel(image, kernel):
 	im = new_image(image.shape[1], image.shape[0])
 	im[:, :, 0] = convolve2d(
 		image[:, :, 0], kernel, mode="same", boundary='symm')
@@ -22,7 +27,7 @@ def box_blur(size):
 
 def gaussian_blur(sigma):
 	y, x = np.ogrid[-3*sigma:3*sigma+1, -3*sigma:3*sigma+1]
-	return 1 / (2 * pi * np.square(sigma) * np.exp((np.square(x) + np.square(y))/(2*np.square(sigma))))
+	return 1 / (2 * np.pi * np.square(sigma) * np.exp((np.square(x) + np.square(y))/(2*np.square(sigma))))
 
 
 # kernel = np.array([[0,0,0],[0,0,0],[0,0,0]])
