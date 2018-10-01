@@ -1,22 +1,21 @@
 import numpy as np
 from image import new_image
 from scipy.signal import convolve2d, convolve
+from distortions import extend_border, unpad
 
 
 def apply_kernel(image, kernel):
-	# Needs padding fix
-	im = convolve(image, np.array(kernel[:, :, None]), mode="same")
-	return im
+	pad_width = kernel.shape[0]//2 + 1
+	im = extend_border(image, pad_width)
+	im = convolve(im, kernel[:, :, None], mode="same")
+	return unpad(im, pad_width)
 
 
 def _apply_kernel(image, kernel):
 	im = new_image(image.shape[1], image.shape[0])
-	im[:, :, 0] = convolve2d(
-		image[:, :, 0], kernel, mode="same", boundary='symm')
-	im[:, :, 1] = convolve2d(
-		image[:, :, 1], kernel, mode="same", boundary='symm')
-	im[:, :, 2] = convolve2d(
-		image[:, :, 2], kernel, mode="same", boundary='symm')
+	im[:, :, 0] = convolve2d(image[:, :, 0], kernel, mode="same", boundary='symm')
+	im[:, :, 1] = convolve2d(image[:, :, 1], kernel, mode="same", boundary='symm')
+	im[:, :, 2] = convolve2d(image[:, :, 2], kernel, mode="same", boundary='symm')
 	return im
 
 
