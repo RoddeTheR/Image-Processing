@@ -19,8 +19,9 @@ def wavy(image, amplitude, frequency=1, phase=0):
 
 
 def displace_layer(layer, x_displacement, y_displacement):
-	y_disp = (y_displacement, 0) if y_displacement > 0 else (0, -y_displacement)
-	x_disp = (x_displacement, 0) if x_displacement > 0 else (0, -x_displacement)
-	im = np.pad(layer, (y_disp, x_disp), mode='edge')
-	im = im[:-y_displacement, :] if y_displacement > 0 else im[-y_displacement:, :]
-	return im[:, :-x_displacement] if x_displacement > 0 else im[:, -x_displacement:]
+	y_dim, x_dim = layer.shape
+	x = np.arange(x_dim) + x_displacement
+	x = np.clip(x, 0, x_dim - 1)
+	y = np.arange(y_dim) + y_displacement
+	y = np.clip(y[:, None], 0, y_dim - 1)
+	return layer[y, x]
