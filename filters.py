@@ -3,6 +3,7 @@ from constants import R, G, B
 from image import new_image
 from math import sqrt
 from kmeans import k_means
+from distortions import displace_layer
 
 
 def grayscale(image, weights=(0.33, 0.33, 0.33)):
@@ -70,3 +71,11 @@ def closest_lightness(image, colors):
 	distances = np.abs(image_l[:, :, None] - colors_l)
 	indices = np.argmin(distances, axis=2)
 	return colors[indices]
+
+
+def chromatic_aberration(image, displacement):
+	im = np.empty(image.shape)
+	im[R] = displace_layer(image[R], 2*displacement//3, -2*displacement//3)
+	im[G] = displace_layer(image[G], -displacement//6, displacement)
+	im[B] = displace_layer(image[B], -displacement, displacement//3)
+	return im
