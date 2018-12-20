@@ -1,12 +1,13 @@
 import numpy as np
 
 
-def k_means(k, data_set, limit=0.0001, debug=False):
+def k_means(k, data_set, limit=0.0001, debug=False, num_iters=100):
 
 	clusters = data_set[np.random.choice(len(data_set), k)]
 
 	diff = float('inf')
-	while diff > limit:
+	# while diff > limit:
+	for _ in range(num_iters):
 		# Calculates distances between all points and all clusters
 		dist = np.array([np.linalg.norm(data_set - clusters[i], axis=1) for i in range(len(clusters))])
 
@@ -21,6 +22,9 @@ def k_means(k, data_set, limit=0.0001, debug=False):
 
 		if debug:
 			print(f"Diff:{diff}")
+
+		if (diff < limit):
+			break
 
 	if debug:
 		print("Averages:", clusters)
